@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import date
 from datetime import timedelta
+from GUI import GUI
 
 
 all_currencies = {
@@ -44,7 +45,6 @@ while 1:
 
 today = date.today()
 yesterday = today - timedelta(days=1)
-print(today, yesterday)
 
 currencies = cur_1 + "+" + cur_2
 url = "https://data.norges-bank.no/api/data/EXR/B.{}.NOK.SP?format=sdmx-json&startPeriod={}" \
@@ -65,7 +65,7 @@ data_cur2 = data_series[data_cur2_key]["observations"]["0"]
 
 rate1 = data_cur1[len(data_cur1) - 1]
 rate2 = data_cur2[len(data_cur2) - 1]
-print(rate1)
-print(rate2)
+
+GUI(rate1, rate2, amount)
 
 # print(json.dumps(data, indent=4, sort_keys=True))
