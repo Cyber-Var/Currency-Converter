@@ -31,6 +31,8 @@ all_currencies = {
     "ZAR": "South African rand"
 }
 
+str_digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+
 
 root = tk.Tk()
 root.geometry("500x500")
@@ -76,6 +78,43 @@ class GUI:
         self.box_cur1.grid()
         self.box_cur2.grid()
 
+        # Numbers frame:
+
+        frame_numbers = Frame(root)
+        frame_numbers.grid()
+
+        btn_1 = Button(frame_numbers, text="1", command=lambda: self.number_clicked("1"))
+        btn_2 = Button(frame_numbers, text="2", command=lambda: self.number_clicked("2"))
+        btn_3 = Button(frame_numbers, text="3", command=lambda: self.number_clicked("3"))
+
+        btn_1.grid(row=0, column=0)
+        btn_2.grid(row=0, column=1)
+        btn_3.grid(row=0, column=2)
+
+        btn_4 = Button(frame_numbers, text="4", command=lambda: self.number_clicked("4"))
+        btn_5 = Button(frame_numbers, text="5", command=lambda: self.number_clicked("5"))
+        btn_6 = Button(frame_numbers, text="6", command=lambda: self.number_clicked("6"))
+
+        btn_4.grid(row=1, column=0)
+        btn_5.grid(row=1, column=1)
+        btn_6.grid(row=1, column=2)
+
+        btn_7 = Button(frame_numbers, text="7", command=lambda: self.number_clicked("7"))
+        btn_8 = Button(frame_numbers, text="8", command=lambda: self.number_clicked("8"))
+        btn_9 = Button(frame_numbers, text="9", command=lambda: self.number_clicked("9"))
+
+        btn_7.grid(row=2, column=0)
+        btn_8.grid(row=2, column=1)
+        btn_9.grid(row=2, column=2)
+
+        btn_dot = Button(frame_numbers, text=".", command=lambda: self.number_clicked("."))
+        btn_0 = Button(frame_numbers, text="0", command=lambda: self.number_clicked("0"))
+        btn_back = Button(frame_numbers, text="⌫", command=lambda: self.number_clicked("B"))
+
+        btn_dot.grid(row=3, column=0)
+        btn_0.grid(row=3, column=1)
+        btn_back.grid(row=3, column=2)
+
         root.mainloop()
 
     def entered(self):
@@ -107,6 +146,11 @@ class GUI:
 
         print(rate1, rate2)
 
+    def number_clicked(self, number):
+        if number in str_digits or number == "." and "." not in self.txt_amount.get():
+            self.txt_amount.insert(len(self.txt_amount.get()), number)
+        elif number == "B":
+            self.txt_amount.delete(len(self.txt_amount.get())-1, END)
 
 GUI()
 
