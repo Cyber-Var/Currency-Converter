@@ -34,23 +34,31 @@ all_currencies = {
 str_digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 
+def is_float(number):
+    try:
+        float(number)
+        return True
+    except ValueError:
+        return False
+
+
 root = tk.Tk()
-root.geometry("500x500")
+root.geometry("300x450")
 root.title("Currency Converter")
 
 
 class GUI:
 
     txt_amount = None
-
+    lbl_result = Label(root, text="")
 
     def __init__(self):
         values = []
         for cur in all_currencies:
             values.append(cur + " (" + all_currencies[cur] + ")")
 
-        self.box_cur1 = ttk.Combobox(root, values=values)
-        self.box_cur2 = ttk.Combobox(root, values=values)
+        self.box_cur1 = ttk.Combobox(root, values=values, width=27, font="Verdana 20 bold")
+        self.box_cur2 = ttk.Combobox(root, values=values, width=27)
 
         self.draw()
 
@@ -61,11 +69,11 @@ class GUI:
         frame_entry = Frame(root)
         frame_entry.grid()
 
-        self.txt_amount = Entry(frame_entry, text="Enter amount: ")
-        self.txt_amount.grid(row=0, column=0)
+        self.txt_amount = Entry(frame_entry, text="Enter amount: ", font=("Comic Sans MS", 29, "bold"), width=9)
+        self.txt_amount.grid(row=0, column=0, sticky="WE", padx=0)
 
-        btn_enter = Button(frame_entry, text="Enter", command=self.entered)
-        btn_enter.grid(row=0, column=1)
+        btn_enter = Button(frame_entry, text="Enter", width=10, height=3, command=self.entered)
+        btn_enter.grid(row=0, column=1, sticky="WE", padx=0)
 
         root.grid_columnconfigure(0, weight=1)
 
@@ -124,27 +132,44 @@ class GUI:
         cur_1 = self.box_cur1.get().split(" ", 1)[0]
         cur_2 = self.box_cur2.get().split(" ", 1)[0]
 
-        currencies = cur_1 + "+" + cur_2
-        url = "https://data.norges-bank.no/api/data/EXR/B.{}.NOK.SP?format=sdmx-json&startPeriod={}" \
-              "&endPeriod={}&locale=en".format(currencies, yesterday, today)
-        rates = requests.get(url)
-        data = rates.content.decode()
+        if cur_1 == cur_2:
+            result = self.calculate(1, 1)
+        else:
+            currencies = cur_1 + "+" + cur_2
+            url = "https://data.norges-bank.no/api/data/EXR/B.{}.NOK.SP?format=sdmx-json&startPeriod={}" \
+                  "&endPeriod={}&locale=en".format(currencies, yesterday, today)
+            rates = requests.get(url)
+            data = rates.content.decode()
 
-        data = json.loads(data)
-        data_series = data["data"]["dataSets"][0]["series"]
+            data = json.loads(data)
+            data_series = data["data"]["dataSets"][0]["series"]
 
-        data_cur1_key = "0:0:0:0"
-        data_cur2_key = "0:1:0:0"
-        if cur_1 > cur_2:
-            data_cur1_key = "0:1:0:0"
-            data_cur2_key = "0:0:0:0"
-        data_cur1 = data_series[data_cur1_key]["observations"]["0"]
-        data_cur2 = data_series[data_cur2_key]["observations"]["0"]
+            data_cur1_key = "0:0:0:0"
+            data_cur2_key = "0:1:0:0"
+            if cur_1 > cur_2:
+                data_cur1_key = "0:1:0:0"
+                data_cur2_key = "0:0:0:0"
+            data_cur1 = data_series[data_cur1_key]["observations"]["0"]
+            data_cur2 = data_series[data_cur2_key]["observations"]["0"]
 
-        rate1 = data_cur1[len(data_cur1) - 1]
-        rate2 = data_cur2[len(data_cur2) - 1]
+            rate1 = data_cur1[len(data_cur1) - 1]
+            rate2 = data_cur2[len(data_cur2) - 1]
 
-        print(rate1, rate2)
+            result = self.calculate(rate1, rate2)
+
+        if result == -1:
+            self.txt_amount.delete(0, END)
+        else:
+            self.lbl_result.grid_forget()
+            self.lbl_result = Label(root, text="Result = " + str(result))
+            self.lbl_result.grid()
+
+    def calculate(self, rate1, rate2):
+        if is_float(self.txt_amount.get()):
+            amount = float(self.txt_amount.get())
+            if amount >= 0:
+                return round(amount * (float(rate1) / float(rate2)), 2)
+        return -1
 
     def number_clicked(self, number):
         if number in str_digits or number == "." and "." not in self.txt_amount.get():
