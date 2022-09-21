@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 import tkinter.ttk as ttk
 # for mac
-from tkmacosx import Button
+# from tkmacosx import Button
 
 import requests
 import json
@@ -53,7 +53,6 @@ root.title("Currency Converter")
 
 
 class GUI:
-
     txt_amount = None
     lbl_result = Label(root, text="")
 
@@ -79,16 +78,17 @@ class GUI:
         self.txt_amount.grid(row=0, column=0, sticky="WE", padx=0, ipady=7)
 
         # for mac:
-        btn_enter = Button(frame_entry, text="Enter", width=100, height=50, bg='#595959', fg='white',
+        # btn_enter = Button(frame_entry, text="Enter", width=100, height=50, bg='#595959', fg='white',
+        # highlightbackground='#B4CFEC', command=self.entered)
+        btn_enter = Button(frame_entry, text="Enter", width=10, height=3, bg='#595959', fg='white',
                            highlightbackground='#B4CFEC', command=self.entered)
-        # btn_enter = Button(frame_entry, text="Enter", width=10, height=3, bg="#7393B3", command=self.entered)
         btn_enter.grid(row=0, column=1, sticky="WE", padx=0)
 
         root.grid_columnconfigure(0, weight=1)
 
         # Currency Drop downs:
 
-        style = ttk.Style(root)  # If you dont have a class, put your root in the()
+        style = ttk.Style(root)
         style.configure('TCombobox', arrowsize=30)
         style.configure('Vertical.TScrollbar', arrowsize=28)
 
@@ -104,7 +104,7 @@ class GUI:
         frame_numbers.grid()
 
         # for mac:
-        btn_1 = Button(frame_numbers, text="1", width=89, height=50, bg='#595959', fg='white',
+        ''' btn_1 = Button(frame_numbers, text="1", width=89, height=50, bg='#595959', fg='white',
                        highlightbackground='#B4CFEC', command=lambda: self.number_clicked("1"))
         btn_2 = Button(frame_numbers, text="2", width=89, height=50, bg='#595959', fg='white',
                        highlightbackground='#B4CFEC', command=lambda: self.number_clicked("2"))
@@ -130,9 +130,38 @@ class GUI:
         btn_0 = Button(frame_numbers, text="0", width=89, height=50, bg='#595959', fg='white',
                        highlightbackground='#B4CFEC', command=lambda: self.number_clicked("0"))
         btn_back = Button(frame_numbers, text="⌫", width=89, height=50, bg='#595959', fg='white',
+                          highlightbackground='#B4CFEC', command=lambda: self.number_clicked("B")) '''
+
+        btn_1 = Button(frame_numbers, text="1", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("1"))
+        btn_2 = Button(frame_numbers, text="2", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("2"))
+        btn_3 = Button(frame_numbers, text="3", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("3"))
+
+        btn_4 = Button(frame_numbers, text="4", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("4"))
+        btn_5 = Button(frame_numbers, text="5", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("5"))
+        btn_6 = Button(frame_numbers, text="6", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("6"))
+
+        btn_7 = Button(frame_numbers, text="7", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("7"))
+        btn_8 = Button(frame_numbers, text="8", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("8"))
+        btn_9 = Button(frame_numbers, text="9", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("9"))
+
+        btn_dot = Button(frame_numbers, text=".", width=10, height=3, bg='#595959', fg='white',
+                         highlightbackground='#B4CFEC', command=lambda: self.number_clicked("."))
+        btn_0 = Button(frame_numbers, text="0", width=10, height=3, bg='#595959', fg='white',
+                       highlightbackground='#B4CFEC', command=lambda: self.number_clicked("0"))
+        btn_back = Button(frame_numbers, text="⌫", width=10, height=3, bg='#595959', fg='white',
                           highlightbackground='#B4CFEC', command=lambda: self.number_clicked("B"))
 
-        ''' btn_1 = Button(frame_numbers, text="1", width=9, height=3, bg="#7393B3", command=lambda: self.number_clicked("1"))
+        ''' btn_1 = Button(frame_numbers, text="1", width=9, height=3, bg="#7393B3",
+                       command=lambda: self.number_clicked("1"))
         btn_2 = Button(frame_numbers, text="2", width=10, height=3, command=lambda: self.number_clicked("2"))
         btn_3 = Button(frame_numbers, text="3", width=9, height=3, command=lambda: self.number_clicked("3"))
 
